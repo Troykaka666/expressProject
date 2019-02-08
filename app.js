@@ -16,13 +16,14 @@ app.get("/", function(req, res){
 
 
 //camgrounds default array
-var campgrounds = [
-    {name: "Georgia State University", image: "/images/gsulogo.png"},
-    {name: "Kennesaw State University", image: "/images/New-KSU-logo.jpg"},
-    {name: "University of Georgia", image: "/images/ugalogo.jpg"}
-]
+// var campgrounds = [
+//     {name: "Georgia State University", image: "/images/gsulogo.png"},
+//     {name: "Kennesaw State University", image: "/images/New-KSU-logo.jpg"},
+//     {name: "University of Georgia", image: "/images/ugalogo.jpg"}
+// ]
 
 app.get("/campgrounds", function(req, res){
+    //open campgrounds page and pass the variable campgrounds
     res.render("campgrounds", {campgrounds: campgrounds});
 });
 
