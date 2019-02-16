@@ -11,7 +11,7 @@ var express = require("express"),
 mongoose.connect("mongodb://localhost/yelp_camp", {useNewUrlParser: true});
 
 //import seeds: remove and create
-// seedDB();
+//seedDB();
 
 
 
@@ -38,7 +38,10 @@ app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({extended: true}));
 //tell express to search all the files in public folder
-app.use(express.static("public"));
+
+
+//dirname: the whole path of current file 
+app.use(express.static(__dirname + "/public"));
 
 
 app.get("/", function(req, res){
