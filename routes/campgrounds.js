@@ -98,6 +98,7 @@ router.put("/:id", checkCampgroundownership, function(req, res){
     //redirect to the showpage
 });
 
+//-
 //DESTROY CAMPGROUND ROUTE
 router.delete("/:id", checkCampgroundownership, function(req, res){
     Campground.findByIdAndRemove(req.params.id, function(err){
