@@ -51,7 +51,7 @@ var newCampground = {name: name, image: image, description: desc, author:author}
             console.log(err);
         }else{
             //refreash and go the the referred page
-            res.redirect("campgrounds/campgrounds");     
+            res.redirect("campgrounds/");     
         }
     });
 });
@@ -74,11 +74,64 @@ router.get("/:id", function(req, res){
     );
 });
 
+//EDIT CAMPGROUND ROUTE
+
+router.get("/:id/edit", checkCampgroundownership, function(req, res) {
+    //is userlogged in?
+           Campground.findById(req.params.id, function(err, foundCampground){
+                res.render("campgrounds/edit", {campground: foundCampground});
+          });
+});
+
+
+//UPDATE CAMPGROUND ROUTE
+router.put("/:id", checkCampgroundownership, function(req, res){
+    //find and update the correct campground
+    
+    Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground){
+        if(err){
+            res.redirect("/campgrounds");
+        }else{
+            res.redirect("/campgrounds/" + req.params.id);
+        }
+    } );
+    //redirect to the showpage
+});
+
+//DESTROY CAMPGROUND ROUTE
+router.delete("/:id", checkCampgroundownership, function(req, res){
+    Campground.findByIdAndRemove(req.params.id, function(err){
+       if(err){
+           res.redirect("/campgrounds");
+       } else{
+           res.redirect("/campgrounds");
+       }
+    });
+});
+
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
     res.redirect("/login");
+}
+
+function checkCampgroundownership(req, res, next){
+    if(req.isAuthenticated()){
+       Campground.findById(req.params.id, function(err, foundCampground){
+        if(err){
+            res.redirect("back");
+        }else{
+            if(foundCampground.author.id.equals(req.user._id)){
+                next();
+            }else{
+                res.redirect("back");
+            }
+        }
+    });
+    }else{
+        res.redirect("back");
+    }
 }
 
 module.exports = router;

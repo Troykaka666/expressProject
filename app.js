@@ -7,8 +7,13 @@ var express     = require("express"),
     Campground  = require("./models/campground"),
     Comment     = require("./models/comment"),
     User        = require("./models/user"),
-    seedDB      = require("./seeds")
+    methodOverride = require("method-override"),
+    seedDB      = require("./seeds");
     
+    
+// Make Mongoose use `findOneAndUpdate()`. Note that this option is `true` by default, you need to set it to false.
+mongoose.set('useFindAndModify', false);
+
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
     secret: "Once again Rusty wins cutest dog!",
@@ -35,7 +40,8 @@ mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
-// seedDB(); //seed the database
+app.use(methodOverride("_method"));
+//seedDB(); //seed the database
 
 
 

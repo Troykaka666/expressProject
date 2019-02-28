@@ -17,10 +17,22 @@
                     <h4 class="float-right">$9.00 / night</h4>
                     <h4><a><%=campground.name%></a></h4>
                     <p class="captions"><%=campground.description%></p>
+                    <p>
+                        <!--<em>Submitted By <%= campground.author.username %></em>-->
+                    </p>
+                    <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+                    <a class="btn btn-warning" href="/campgrounds/<%= campground._id%>/edit">Edit</a>
+                    <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger ">Delete</button>
+                    </form>
+                    <% } %>
+                    <span class="float-right" style="margin-top: -20px;">
+                        <em>Submitted By <%= campground.author.username%></em>
+                    </span>
                 </div>
             </div>
-            <div class="jumbotron">
-                <div class="text-right">
+            <div class="jumbotron mt-2">
+                <div class="row mb-4">
                     <a class="btn btn-success" href="/campgrounds/<%= campground._id%>/comments/new">Add New Comment</a>
                 </div>
                 <% campground.comments.forEach(function(comment){ %> 
